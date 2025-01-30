@@ -5,6 +5,7 @@ import logging
 import multiprocessing
 import os
 import pathlib
+import signal
 import subprocess
 import sys
 from abc import ABC, abstractmethod
@@ -265,6 +266,8 @@ class FbtNG:
         cmdline.extend(["-Y", self.path_config.repo_dir])
         cmdline.extend(args)
 
+        # Past this point, we're going to run SCons, so we need to ignore SIGINT
+        signal.signal(signal.SIGINT, signal.SIG_IGN)
         logging.debug(cmdline)
         return subprocess.run(cmdline).returncode
 
