@@ -1,7 +1,7 @@
 @echo off
 
 if not ["%FBT_ROOT%"] == [""] (
-    goto already_set
+  goto already_set
 )
 
 set "FBT_ROOT=%~dp0\..\..\"
@@ -10,13 +10,13 @@ set "FBT_ROOT=%cd%"
 popd
 
 if not ["%FBT_NOENV%"] == [""] (
-    exit /b 0
+  exit /b 0
 )
 
-set "FLIPPER_TOOLCHAIN_VERSION=41"
+set "FLIPPER_TOOLCHAIN_VERSION=42"
 
 if ["%FBT_TOOLCHAIN_PATH%"] == [""] (
-    set "FBT_TOOLCHAIN_PATH=%FBT_ROOT%"
+  set "FBT_TOOLCHAIN_PATH=%FBT_ROOT%"
 )
 
 set "FBT_TOOLCHAIN_ROOT=%FBT_TOOLCHAIN_PATH%\toolchain\x86_64-windows"
@@ -24,22 +24,22 @@ set "FBT_TOOLCHAIN_ROOT=%FBT_TOOLCHAIN_PATH%\toolchain\x86_64-windows"
 set "FBT_TOOLCHAIN_VERSION_FILE=%FBT_TOOLCHAIN_ROOT%\VERSION"
 
 if not exist "%FBT_TOOLCHAIN_ROOT%" (
-    powershell -ExecutionPolicy Bypass -File "%FBT_ROOT%\scripts\toolchain\windows-toolchain-download.ps1" %flipper_toolchain_version% "%FBT_TOOLCHAIN_ROOT%" || exit /b
+  powershell -ExecutionPolicy Bypass -File "%FBT_ROOT%\scripts\toolchain\windows-toolchain-download.ps1" %flipper_toolchain_version% "%FBT_TOOLCHAIN_ROOT%" || exit /b
 )
 
 if not exist "%FBT_TOOLCHAIN_VERSION_FILE%" (
-    powershell -ExecutionPolicy Bypass -File "%FBT_ROOT%\scripts\toolchain\windows-toolchain-download.ps1" %flipper_toolchain_version% "%FBT_TOOLCHAIN_ROOT%" || exit /b
+  powershell -ExecutionPolicy Bypass -File "%FBT_ROOT%\scripts\toolchain\windows-toolchain-download.ps1" %flipper_toolchain_version% "%FBT_TOOLCHAIN_ROOT%" || exit /b
 )
 
 set /p REAL_TOOLCHAIN_VERSION=<"%FBT_TOOLCHAIN_VERSION_FILE%"
 if not "%REAL_TOOLCHAIN_VERSION%" == "%FLIPPER_TOOLCHAIN_VERSION%" (
-    echo FBT: starting toolchain upgrade process..
-    powershell -ExecutionPolicy Bypass -File "%FBT_ROOT%\scripts\toolchain\windows-toolchain-download.ps1" %flipper_toolchain_version% "%FBT_TOOLCHAIN_ROOT%" || exit /b
-    set /p REAL_TOOLCHAIN_VERSION=<"%FBT_TOOLCHAIN_VERSION_FILE%"
+  echo FBT: starting toolchain upgrade process..
+  powershell -ExecutionPolicy Bypass -File "%FBT_ROOT%\scripts\toolchain\windows-toolchain-download.ps1" %flipper_toolchain_version% "%FBT_TOOLCHAIN_ROOT%" || exit /b
+  set /p REAL_TOOLCHAIN_VERSION=<"%FBT_TOOLCHAIN_VERSION_FILE%"
 )
 
 if defined FBT_VERBOSE (
-    echo FBT: using toolchain version %REAL_TOOLCHAIN_VERSION%
+  echo FBT: using toolchain version %REAL_TOOLCHAIN_VERSION%
 )
 
 set "HOME=%USERPROFILE%"
