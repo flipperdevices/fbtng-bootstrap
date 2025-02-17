@@ -232,6 +232,8 @@ class FbtNG:
         ]
 
     def _update_git_submodules(self, git_repo: pathlib.Path):
+        # Disabled for now in favor of shell script-based solution
+        return
         if not os.path.exists(git_repo / ".git"):
             logging.error(f"fbtng: {git_repo} is not a git repository")
 
